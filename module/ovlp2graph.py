@@ -683,7 +683,7 @@ Outputs:
             epilog=epilog,
             formatter_class=HelpF)
     parser.add_argument(
-        '--overlap-file', help='a file that contains the overlap information.',required = True)
+        '--overlap-file', help='the filtered overlap data from step2.',required = True)
 
     args = parser.parse_args(argv[1:])
     logging.basicConfig(level=logging.INFO, stream=sys.stdout, format='%(msg)s')
