@@ -1,235 +1,100 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "id": "ee300e71",
-   "metadata": {},
-   "source": [
-    "# PGA"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "8c84bbb0",
-   "metadata": {},
-   "source": [
-    "PGA is not an independent assembly software, it relies on the output of hifiasm (–write-ec –write-paf -l 1) and technologies that can anchor contigs to chromosomes,such as genetic maps, HIC, or alignment with genome sequences of related species to achieve a gapless genome."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "9c112dfe",
-   "metadata": {},
-   "source": [
-    "# Dependencies"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "b62fa721",
-   "metadata": {},
-   "source": [
-    "python3\n",
-    "\n",
-    "mummer\n",
-    "\n",
-    "networkx"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "686424ee",
-   "metadata": {},
-   "source": [
-    "# Installation"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "e779c99c",
-   "metadata": {},
-   "source": [
-    "conda install -c bioconda mummer\n",
-    "\n",
-    "conda install -c conda-forge networkx\n",
-    "\n",
-    "git clone https://github.com/likui345/PGA.git\n",
-    "\n",
-    "python setup.py install"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "1b0218db",
-   "metadata": {},
-   "source": [
-    "# Usage"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "02a51cc1",
-   "metadata": {},
-   "source": [
-    "### 1.Using reference genomes to anchor scaffolds."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "b881af0d",
-   "metadata": {},
-   "source": [
-    "\n",
-    "usage: \n",
-    "    rbsa.py  --type nucmer --ref REF --scf SCF\n",
-    "    or rbsa.py  --type mcscan --A_bed A_BED --B_bed B_BED --anchor ANCHOR --scf SCF\n",
-    "    \n",
-    "optional arguments:\n",
-    "  -h, --help            show this help message and exit\n",
-    "  --type {nucmer,mcscan}\n",
-    "                        nucmer or mcscan anchor\n",
-    "  --ref REF             This is reference genome sequences which has anchored\n",
-    "                        to the chromosomal level\n",
-    "  --scf SCF             This is the scaffold sequences\n",
-    "  --A_bed A_BED         species_a bed file\n",
-    "  --B_bed B_BED         species_b bed file\n",
-    "  --anchor ANCHOR       anchor.simple files of species_a and species_b\n",
-    "    "
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "bc421d1b",
-   "metadata": {},
-   "source": [
-    "### 2.Filtering overlap data ."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "9fa20b45",
-   "metadata": {},
-   "source": [
-    "\n",
-    "usage: \n",
-    "    filter.py  --paf_fn PAF --bestn NUM --output OUTPUT\n",
-    "    \n",
-    "optional arguments:\n",
-    "  -h, --help       show this help message and exit\n",
-    "  --paf_fn PAF_FN  Input. reads alignment file\n",
-    "  --bestn BESTN    output at least best n overlaps on 5' or 3' ends if\n",
-    "                   possible.\n",
-    "  --output OUTPUT  Output filename"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "89e56822",
-   "metadata": {},
-   "source": [
-    "### 3.Get chr_paths using agp file and gfa file."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "6f6178a9",
-   "metadata": {},
-   "source": [
-    "\n",
-    "usage: chr_paths.py  --agp AGP --gfa GFA\n",
-    "\n",
-    "optional arguments:\n",
-    "  -h, --help  show this help message and exit\n",
-    "  --agp AGP   agp file form contig anchoring\n",
-    "  --gfa GFA   gfa from hifiasm"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "46583a0b",
-   "metadata": {},
-   "source": [
-    "### 4.Building string graph."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "65424076",
-   "metadata": {},
-   "source": [
-    "\n",
-    "usage: ovlp2graph.py [-h] --overlap-file OVERLAP_FILE\n",
-    "\n",
-    "string graph assembler that is desinged for handling diploid genomes\n",
-    "\n",
-    "optional arguments:\n",
-    "  -h, --help            show this help message and exit\n",
-    "  --overlap-file OVERLAP_FILE\n",
-    "                        the filtered overlap data from step2. (default: None)\n",
-    "\n",
-    "Outputs:\n",
-    "    - sg_edges_list\n",
-    "    - chimer_nodes \n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "d16473d0",
-   "metadata": {},
-   "source": [
-    "### 5.Generate the final assembly."
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "id": "80f2ac89",
-   "metadata": {},
-   "source": [
-    "\n",
-    "usage: graph2chr.py [-h] --reads-fasta-fn READS_FASTA_FN --paf-fn PAF_FN\n",
-    "                     --sg-edges-list-fn SG_EDGES_LIST_FN --chr-paths-fn\n",
-    "                     CHR_PATHS_FN\n",
-    "\n",
-    "Generate the chromosome and tiling paths, given the string graph.\n",
-    "\n",
-    "optional arguments:\n",
-    "  -h, --help            show this help message and exit\n",
-    "  --reads-fasta-fn READS_FASTA_FN\n",
-    "                        Input. reads file generated by hifiasm. (default:\n",
-    "                        None)\n",
-    "  --paf-fn PAF_FN       Input. reads alignment file generated by hifiasm.\n",
-    "                        (default: None)\n",
-    "  --sg-edges-list-fn SG_EDGES_LIST_FN\n",
-    "                        Input. File containing string graph edges, produced by\n",
-    "                        ovlp2graph.py. (default: None)\n",
-    "  --chr-paths-fn CHR_PATHS_FN\n",
-    "                        Input. File containing chromosome paths. (default:\n",
-    "                        None)\n",
-    "\n",
-    "\n",
-    "\n"
-   ]
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.8.8"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 5
-}
+# PGA
+
+PGA is not an independent assembly software, it relies on the output of hifiasm and technologies that can anchor contigs to chromosomes,such as genetic maps, HIC, or alignment with genome sequences of related species to achieve a gapless genome.
+
+# Dependencies
+
+python3
+
+mummer
+
+networkx
+
+# Installation
+
+conda install -c bioconda mummer
+
+conda install -c conda-forge networkx
+
+git clone https://github.com/likui345/PGA.git
+
+python setup.py install
+
+# Usage
+
+### 1.Using reference genomes to anchor scaffolds.
+
+
+usage: 
+    rbsa.py  --type nucmer --ref REF --scf SCF
+    or rbsa.py  --type mcscan --A_bed A_BED --B_bed B_BED --anchor ANCHOR --scf SCF
+    
+optional arguments:
+  -h, --help            show this help message and exit
+  --type {nucmer,mcscan}
+                        nucmer or mcscan anchor
+  --ref REF             This is reference genome sequences which has anchored
+                        to the chromosomal level
+  --scf SCF             This is the scaffold sequences
+  --A_bed A_BED         species_a bed file
+  --B_bed B_BED         species_b bed file
+  --anchor ANCHOR       anchor.simple files of species_a and species_b
+    
+
+### 2.Filtering overlap data .
+
+
+usage: 
+    filter.py  --paf_fn PAF --bestn NUM --output OUTPUT
+    
+optional arguments:
+  -h, --help       show this help message and exit
+  --paf_fn PAF_FN  Input. reads alignment file
+  --bestn BESTN    output at least best n overlaps on 5' or 3' ends if
+                   possible.
+  --output OUTPUT  Output filename
+
+### 3.Get chr_paths using agp file and gfa file.
+
+
+usage: chr_paths.py  --agp AGP --gfa GFA
+
+optional arguments:
+  -h, --help  show this help message and exit
+  --agp AGP   agp file form contig anchoring
+  --gfa GFA   gfa from hifiasm
+
+### 4.Building string graph.
+
+
+usage: ovlp2graph.py [-h] --overlap-file OVERLAP_FILE
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --overlap-file OVERLAP_FILE
+                        a file that contains the overlap information. (default: None)
+
+Outputs:
+    - sg_edges_list
+    - chimer_nodes 
+
+### 5.Generate the final assembly.
+
+
+usage: graph2chr.py [-h] --reads-fasta-fn READS_FASTA_FN --paf-fn PAF_FN
+                    --sg-edges-list-fn SG_EDGES_LIST_FN --ctg-paths-fn
+                    CTG_PATHS_FN
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --reads-fasta-fn READS_FASTA_FN
+                        Input. reads file generated by hifiasm. (default:
+                        None)
+  --paf-fn PAF_FN       Input. reads alignment file generated by hifiasm.
+                        (default: None)
+  --sg-edges-list-fn SG_EDGES_LIST_FN
+                        Input. File containing string graph edges, produced by
+                        ovlp2graph.py. (default: None)
+  --ctg-paths-fn CTG_PATHS_FN
+                        Input. File containing contig paths. (default: None)
+
