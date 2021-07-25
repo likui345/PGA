@@ -1,41 +1,33 @@
 {
  "cells": [
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "794673f1",
+   "cell_type": "markdown",
+   "id": "ee300e71",
    "metadata": {},
-   "outputs": [],
    "source": [
     "# PGA"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "a61720f7",
+   "cell_type": "markdown",
+   "id": "8c84bbb0",
    "metadata": {},
-   "outputs": [],
    "source": [
     "PGA is not an independent assembly software, it relies on the output of hifiasm (–write-ec –write-paf -l 1) and technologies that can anchor contigs to chromosomes,such as genetic maps, HIC, or alignment with genome sequences of related species to achieve a gapless genome."
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "f7125fc8",
+   "cell_type": "markdown",
+   "id": "9c112dfe",
    "metadata": {},
-   "outputs": [],
    "source": [
     "# Dependencies"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "aa8e56a0",
+   "cell_type": "markdown",
+   "id": "b62fa721",
    "metadata": {},
-   "outputs": [],
    "source": [
     "python3\n",
     "\n",
@@ -45,21 +37,17 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "67dc975c",
+   "cell_type": "markdown",
+   "id": "686424ee",
    "metadata": {},
-   "outputs": [],
    "source": [
     "# Installation"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "a9f9f596",
+   "cell_type": "markdown",
+   "id": "e779c99c",
    "metadata": {},
-   "outputs": [],
    "source": [
     "conda install -c bioconda mummer\n",
     "\n",
@@ -71,31 +59,25 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "a728beda",
+   "cell_type": "markdown",
+   "id": "1b0218db",
    "metadata": {},
-   "outputs": [],
    "source": [
     "# Usage"
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "072e9d84",
+   "cell_type": "markdown",
+   "id": "02a51cc1",
    "metadata": {},
-   "outputs": [],
    "source": [
     "### 1.Using reference genomes to anchor scaffolds."
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "1232b9ce",
+   "cell_type": "markdown",
+   "id": "b881af0d",
    "metadata": {},
-   "outputs": [],
    "source": [
     "\n",
     "usage: \n",
@@ -116,21 +98,17 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "60551edb",
+   "cell_type": "markdown",
+   "id": "bc421d1b",
    "metadata": {},
-   "outputs": [],
    "source": [
     "### 2.Filtering overlap data ."
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "634d5c04",
+   "cell_type": "markdown",
+   "id": "9fa20b45",
    "metadata": {},
-   "outputs": [],
    "source": [
     "\n",
     "usage: \n",
@@ -145,21 +123,17 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "2e32d996",
+   "cell_type": "markdown",
+   "id": "89e56822",
    "metadata": {},
-   "outputs": [],
    "source": [
     "### 3.Get chr_paths using agp file and gfa file."
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "3272a750",
+   "cell_type": "markdown",
+   "id": "6f6178a9",
    "metadata": {},
-   "outputs": [],
    "source": [
     "\n",
     "usage: chr_paths.py  --agp AGP --gfa GFA\n",
@@ -171,21 +145,17 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "171cef32",
+   "cell_type": "markdown",
+   "id": "46583a0b",
    "metadata": {},
-   "outputs": [],
    "source": [
     "### 4.Building string graph."
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "6eeff565",
+   "cell_type": "markdown",
+   "id": "65424076",
    "metadata": {},
-   "outputs": [],
    "source": [
     "\n",
     "usage: ovlp2graph.py [-h] --overlap-file OVERLAP_FILE\n",
@@ -203,21 +173,17 @@
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "abebc7c1",
+   "cell_type": "markdown",
+   "id": "d16473d0",
    "metadata": {},
-   "outputs": [],
    "source": [
     "### 5.Generate the final assembly."
    ]
   },
   {
-   "cell_type": "code",
-   "execution_count": null,
-   "id": "7090915c",
+   "cell_type": "markdown",
+   "id": "80f2ac89",
    "metadata": {},
-   "outputs": [],
    "source": [
     "\n",
     "usage: graph2chr.py [-h] --reads-fasta-fn READS_FASTA_FN --paf-fn PAF_FN\n",
